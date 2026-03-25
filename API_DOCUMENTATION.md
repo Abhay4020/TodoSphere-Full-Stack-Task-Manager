@@ -433,7 +433,7 @@ const getTodos = async (token) => {
 
 ## 🛡️ Security Notes
 
-1. **JWT Tokens** expire after 7 days
+1. **JWT Tokens** expire after 4 days
 2. **Passwords** are hashed with bcrypt (10 salt rounds)
 3. **CORS** is enabled for all origins in development
 4. Always use **HTTPS** in production
@@ -441,15 +441,12 @@ const getTodos = async (token) => {
 6. Never expose **JWT_SECRET** in client-side code
 
 ---
-
+## Future Improvement
 ## 📝 Rate Limiting
 
 Currently, there are no rate limits implemented. Consider adding rate limiting in production using packages like `express-rate-limit`.
 
 ---
 
-## 🔄 Versioning
-
-Current API Version: **v1**
 
 All endpoints are prefixed with `/api` but do not include version numbers. Future versions may use `/api/v2`, etc.
