@@ -5,6 +5,7 @@ require('dotenv').config();
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const User = require('./models/user');
 const auth = require('./middleware/auth');
 
@@ -29,6 +30,15 @@ mongoose.connect(MONGODB_URI, {
 })
 .then(() => console.log('✅ Connected to MongoDB'))
 .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// Generate token
+const generateToken = (user) => {
+    return jwt.sign(
+        { userId: user._id, email: user.email },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+    );
+};
 
 // User Registration Route
 app.post('/api/auth/register', async (req, res) => {
@@ -67,12 +77,8 @@ app.post('/api/auth/register', async (req, res) => {
 
         await user.save();
 
-        // Generate JWT token
-        const token = jwt.sign(
-            { userId: user._id, email: user.email }, 
-            JWT_SECRET, 
-            { expiresIn: '7d' }
-        );
+        // Generate Token function called
+       const token = generateToken(user);
 
         res.status(201).json({
             success: true,
@@ -125,12 +131,8 @@ app.post('/api/auth/login', async (req, res) => {
             });
         }
 
-        // Generate JWT token
-        const token = jwt.sign(
-            { userId: user._id, email: user.email }, 
-            JWT_SECRET, 
-            { expiresIn: '7d' }
-        );
+        // Generate Token function called
+      const token = generateToken(user);
 
         res.json({
             success: true,
